@@ -1,6 +1,7 @@
 import csv
 import copy
 
+# TODO not sure why I have these constants but not others
 G = 'games'
 W = 'wins'
 L = 'losses'
@@ -10,6 +11,8 @@ RA = 'runs_allowed'
 HOME = 1
 AWAY = 0
 
+# This player_names map is for convenience, and relatively independent from
+# the rest of this module.  Could potentiall make it its own module
 player_names = {}
 
 
@@ -22,12 +25,19 @@ def getplayername(id):
     return player_names.get(id)
 
 
+# This getteam is a convenience function, independent from everything else.
+# Provides the logic for manging a map of objects/dicts/whatever.
+# Doesn't have to be a team; I've used this function for parks, etc., too
 def getteam(name, team_dict, team_template):
     if name not in team_dict:
         team_dict[name] = copy.deepcopy(team_template)
     return team_dict[name]
 
 
+# now we get to the functions actually used for gamelogs
+# parse_stats is a relatively generic parser of stat fields
+# takes a field_list and starting_field, so it just knows how to parse,
+# rather than details of the file
 def parse_stats(gmline, field_list, starting_field):
     statmap = {}
     for i in range(len(field_list)):
@@ -39,6 +49,8 @@ def parse_stats(gmline, field_list, starting_field):
     return statmap
 
 
+# parse the starting lineups
+# this function has the fieldIDs embedded, and loops across home and away
 def parse_lineup(gmline, homeOrAway):
     starting_fields = {HOME: 133, AWAY: 106}
     starting_field = starting_fields.get(homeOrAway)
@@ -53,6 +65,8 @@ def parse_lineup(gmline, homeOrAway):
     return lineup
 
 
+# this function translates a linescore representation into a list
+# of runs scored by inning
 def parse_linescore_str(linestr):
     linescore = []
     i = 0
@@ -75,6 +89,8 @@ def parse_linescore(gmline, homeOrAway):
     return parse_linescore_str(gmline[fieldNum])
 
 
+# parse the players/pitchers of records
+# return a dict that can be added to the game obj
 def parse_players_of_record(gmline):
     converters = (
             ('winning_pitcher', 94),
@@ -91,6 +107,8 @@ def parse_players_of_record(gmline):
     return record
 
 
+# parses game-level details into a details dict
+# TODO should this really be a dict, or should these be attributes on an obj?
 def parse_game_details(gmline):
     game_details = {}
     converters = (
@@ -179,7 +197,7 @@ def parse_game_line(gmline):
 
 
 def get_gl_filename(year):
-    return 'GL{}.TXT'.format(year)
+    return 'glfiles/GL{}.TXT'.format(year)
 
 
 def gamelogs(firstyear, lastyear=None):

@@ -15,7 +15,7 @@ days = {WEEKDAYS: ("Mon", "Tue", "Wed", "Thu", "Fri"),
 empty_park = {WEEKDAYS: {G: 0, ATT: 0}, WEEKENDS: {G: 0, ATT: 0}, MAX: 0}
 
 
-for gm in gl.gamelogs(2019):
+for gm in gl.gamelogs(2010, 2019):
     if ATT in gm.details:
         parkID = gm.details['ParkID']
         wkday = gm.details['DayOfWeek']
