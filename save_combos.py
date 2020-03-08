@@ -3,9 +3,9 @@ import gl
 
 combos = {}
 for gm in gl.gamelogs(2019):
-    recs = gm['record']
+    recs = gm.record
     if recs.get('save_pitcher'):
-        combo = (recs['save_pitcher'], recs['winning_pitcher'], gm['year'])
+        combo = (recs['save_pitcher'], recs['winning_pitcher'], gm.year)
         if combo not in combos:
             combos[combo] = 0
         combos[combo] += 1
