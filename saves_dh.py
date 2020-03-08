@@ -1,11 +1,11 @@
-#!/usr/bin/python
+import gl
 
-import csv
-import sys
+saves = []
+doubles = []
+for gm in gl.gamelogs(2010, 2019):
+    if 'save_pitcher' in gm.record:
+        tpl = (gm.details['DateStr'], gm.record['save_pitcher'])
+        doubles.append(tpl) if tpl in saves else saves.append(tpl)
 
-reader = csv.reader(sys.stdin)
-for row in reader:
-	if row[1] != "0":
-		if row[98] != "":
-			print row[0], row[98]
-
+for sv in doubles:
+    print(sv)
