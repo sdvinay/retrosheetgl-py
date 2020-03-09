@@ -8,7 +8,7 @@ teams = {}
 team_template = {G: 0, O: 0}
 
 for gm in gl.gamelogs(2015):
-    for tm in gm.teams:
+    for tm in gm.teams.values():
         team = glutils.getentity(tm.Name, teams, team_template)
         team[G] += 1
         team[O] += gm.details[O]

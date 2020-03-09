@@ -1,6 +1,6 @@
 import csv
 import glutils
-from enum import IntEnum
+from enum import Enum
 
 # TODO not sure why I have these constants but not others
 G = 'games'
@@ -10,7 +10,7 @@ RS = 'runs_scored'
 RA = 'runs_allowed'
 
 
-class HA(IntEnum):
+class HA(Enum):
     home = 1
     away = 0
 
@@ -142,7 +142,7 @@ class Team:
 
 class Game:
     def __init__(self):
-        self.teams = [Team(), Team()]
+        self.teams = {HA.home: Team(), HA.away: Team()}
         self.details = {}
         self.record = {}
 

@@ -4,7 +4,7 @@ import itertools
 
 teammate_games = {}
 for gm in gl.gamelogs(2018, 2019):
-    for tm in gm.teams:
+    for tm in gm.teams.values():
         lineup = tm.lineup
         for combo in itertools.combinations(lineup, 2):
             pair = (combo[0]['ID'], combo[1]['ID'])
