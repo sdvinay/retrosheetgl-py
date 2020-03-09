@@ -1,5 +1,5 @@
 import csv
-import copy
+import glutils
 
 # TODO not sure why I have these constants but not others
 G = 'games'
@@ -10,28 +10,6 @@ RA = 'runs_allowed'
 
 HOME = 1
 AWAY = 0
-
-# This player_names map is for convenience, and relatively independent from
-# the rest of this module.  Could potentiall make it its own module
-player_names = {}
-
-
-def addplayername(id, name):
-    if id not in player_names:
-        player_names[id] = name
-
-
-def getplayername(id):
-    return player_names.get(id)
-
-
-# This getteam is a convenience function, independent from everything else.
-# Provides the logic for manging a map of objects/dicts/whatever.
-# Doesn't have to be a team; I've used this function for parks, etc., too
-def getteam(name, team_dict, team_template):
-    if name not in team_dict:
-        team_dict[name] = copy.deepcopy(team_template)
-    return team_dict[name]
 
 
 # now we get to the functions actually used for gamelogs
@@ -61,7 +39,7 @@ def parse_lineup(gmline, homeOrAway):
         player['position'] = gmline[starting_field+i*3+1]
         lineup.append(player)
         player_name = gmline[starting_field+i*3]
-        addplayername(player['ID'], player_name)
+        glutils.addplayername(player['ID'], player_name)
     return lineup
 
 
@@ -103,7 +81,7 @@ def parse_players_of_record(gmline):
         field = converter[1]
         if (gmline[field-1]):
             record[converter[0]] = gmline[field-1]
-            addplayername(gmline[field-1], gmline[field])
+            glutils.addplayername(gmline[field-1], gmline[field])
     return record
 
 

@@ -1,8 +1,9 @@
 import gl
+import glutils
 import itertools
 
 teammate_games = {}
-for gm in gl.gamelogs(1950, 2019):
+for gm in gl.gamelogs(2018, 2019):
     for tm in gm.teams:
         lineup = tm.lineup
         for combo in itertools.combinations(lineup, 2):
@@ -13,4 +14,4 @@ for gm in gl.gamelogs(1950, 2019):
 
 
 for pair in teammate_games:
-    print(teammate_games[pair], tuple(map(gl.getplayername, pair)))
+    print(teammate_games[pair], tuple(map(glutils.getplayername, pair)))

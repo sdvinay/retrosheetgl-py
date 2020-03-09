@@ -1,4 +1,5 @@
 import gl
+import glutils
 
 G = 'games'
 ATT = 'Attendance'
@@ -15,11 +16,11 @@ days = {WEEKDAYS: ("Mon", "Tue", "Wed", "Thu", "Fri"),
 empty_park = {WEEKDAYS: {G: 0, ATT: 0}, WEEKENDS: {G: 0, ATT: 0}, MAX: 0}
 
 
-for gm in gl.gamelogs(2010, 2019):
+for gm in gl.gamelogs(1993, 2019):
     if ATT in gm.details:
         parkID = gm.details['ParkID']
         wkday = gm.details['DayOfWeek']
-        park = gl.getteam(parkID, parks, empty_park)
+        park = glutils.getentity(parkID, parks, empty_park)
         if gm.details[ATT] > park[MAX]: park[MAX] = gm.details[ATT]
         for w in (WEEKDAYS, WEEKENDS):
             if wkday in days[w]:
@@ -48,6 +49,8 @@ for parkID in parks:
         pct_fuller = 1-(park[WEEKENDS][PCT_EMPTY] / park[WEEKDAYS][PCT_EMPTY])
         print(",".join([parkID,
                         fmtRatio(ratio_raw),
+                        str(int(park[WEEKDAYS][AVG])),
+                        str(int(park[WEEKENDS][AVG])),
                         fmtRatio(ratio_adj),
                         str(park[MAX]),
                         fmtPct(park[WEEKDAYS][PCT_EMPTY]),

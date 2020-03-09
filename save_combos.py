@@ -1,4 +1,5 @@
 import gl
+import glutils
 
 
 combos = {}
@@ -12,4 +13,5 @@ for gm in gl.gamelogs(2019):
 
 for combo in combos:
     if combos[combo] > 3:
-        print(combos[combo], tuple(map(gl.getplayername, combo[0:2])), combo[2])
+        player_names = map(glutils.getplayername, combo[0:2])
+        print(combos[combo], tuple((player_names, combo[2])))

@@ -1,4 +1,5 @@
 import gl
+import glutils
 
 # Find instances of pitchers saving both games in a doubleheader
 # -- finds doubles by putting all saves in a huge list; this is very
@@ -17,10 +18,10 @@ for gm in gl.gamelogs(1950, 2019):
 # aggregate the doubles by pitcher
 doubles_by_pitcher = {}
 for (dt, pitcher) in doubles:
-    gms = gl.getteam(pitcher, doubles_by_pitcher, [])
+    gms = glutils.getentity(pitcher, doubles_by_pitcher, [])
     gms.append(dt)
 
 # list the pitchers who've done it more than once
 for pitcher in doubles_by_pitcher:
     if len(doubles_by_pitcher[pitcher]) > 1:
-        print(gl.getplayername(pitcher), doubles_by_pitcher[pitcher])
+        print(glutils.getplayername(pitcher), doubles_by_pitcher[pitcher])
