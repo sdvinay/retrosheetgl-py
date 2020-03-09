@@ -1,6 +1,6 @@
 import csv
 import glutils
-from enum import Enum
+from enum import Enum, auto
 
 # TODO not sure why I have these constants but not others
 G = 'games'
@@ -11,8 +11,8 @@ RA = 'runs_allowed'
 
 
 class HA(Enum):
-    home = 1
-    away = 0
+    home = auto()
+    away = auto()
 
 
 # now we get to the functions actually used for gamelogs
