@@ -1,17 +1,18 @@
 import gl
 
 # Find instances of pitchers saving both games in a doubleheader
-# -- doesn't really check for DH now (just two saves on same date)
 # -- finds doubles by putting all saves in a huge list; this is very
 #    inefficient and doesn't take advantage of the sorted nature of
-#    gamelogs (could reset the list at the start of each day)
+#    gamelogs (could reset the list at the start of each day). But
+#    we first filter for DHs, this isn't so bad.
 
 saves = []
 doubles = []
 for gm in gl.gamelogs(1950, 2019):
-    if 'save_pitcher' in gm.record:
-        tpl = (gm.details['DateStr'], gm.record['save_pitcher'])
-        doubles.append(tpl) if tpl in saves else saves.append(tpl)
+    if gm.details['GameNum'] > 0:
+        if 'save_pitcher' in gm.record:
+            tpl = (gm.details['DateStr'], gm.record['save_pitcher'])
+            doubles.append(tpl) if tpl in saves else saves.append(tpl)
 
 # aggregate the doubles by pitcher
 doubles_by_pitcher = {}
