@@ -113,7 +113,7 @@ def parse_game_details(gmline):
     return game_details
 
 
-def parse_team_stats(gmline, isHomeTeam):
+def parse_team_stats(gmline, homeOrAway):
     stat_converters = (
         ('bat', 50, 22),
         ('pitch', 67, 39),
@@ -128,7 +128,7 @@ def parse_team_stats(gmline, isHomeTeam):
 
     team_dict = {}
     for converter in stat_converters:
-        fieldnum = converter[1] if isHomeTeam else converter[2]
+        fieldnum = converter[1] if homeOrAway == HA.home else converter[2]
         stats_type = converter[0]
         fields = stat_fields[stats_type]
         team_dict[stats_type] = parse_stats(gmline, fields, fieldnum)
