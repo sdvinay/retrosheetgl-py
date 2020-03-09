@@ -1,5 +1,6 @@
 import csv
 import glutils
+from enum import IntEnum
 
 # TODO not sure why I have these constants but not others
 G = 'games'
@@ -8,8 +9,10 @@ L = 'losses'
 RS = 'runs_scored'
 RA = 'runs_allowed'
 
-HOME = 1
-AWAY = 0
+
+class HA(IntEnum):
+    home = 1
+    away = 0
 
 
 # now we get to the functions actually used for gamelogs
@@ -30,7 +33,7 @@ def parse_stats(gmline, field_list, starting_field):
 # parse the starting lineups
 # this function has the fieldIDs embedded, and loops across home and away
 def parse_lineup(gmline, homeOrAway):
-    starting_fields = {HOME: 133, AWAY: 106}
+    starting_fields = {HA.home: 133, HA.away: 106}
     starting_field = starting_fields.get(homeOrAway)
     lineup = []
     for i in range(9):
@@ -63,7 +66,7 @@ def parse_linescore_str(linestr):
 
 
 def parse_linescore(gmline, homeOrAway):
-    fieldNum = 21-1 if homeOrAway else 20-1
+    fieldNum = 21-1 if homeOrAway == HA.home else 20-1
     return parse_linescore_str(gmline[fieldNum])
 
 
@@ -147,22 +150,22 @@ class Game:
 def parse_game_line(gmline):
     gm = Game()
     tms = gm.teams
-    tms[HOME].opp = tms[AWAY]
-    tms[AWAY].opp = tms[HOME]
+    tms[HA.home].opp = tms[HA.away]
+    tms[HA.away].opp = tms[HA.home]
 
-    tms[HOME].G = tms[AWAY].G = 1
+    tms[HA.home].G = tms[HA.away].G = 1
 
     gm.details = parse_game_details(gmline)
 
-    tms[HOME].Name = gmline[7-1]
-    tms[AWAY].Name = gmline[4-1]
-    tms[HOME].RS = tms[AWAY].RA = int(gmline[11-1])
-    tms[HOME].RA = tms[AWAY].RS = int(gmline[10-1])
-    tms[HOME].W = tms[HOME].L = tms[AWAY].W = tms[AWAY].L = 0
-    if tms[HOME].RS > tms[AWAY].RS: tms[HOME].W = tms[AWAY].L = 1
-    if tms[HOME].RS < tms[AWAY].RS: tms[HOME].L = tms[AWAY].W = 1
+    tms[HA.home].Name = gmline[7-1]
+    tms[HA.away].Name = gmline[4-1]
+    tms[HA.home].RS = tms[HA.away].RA = int(gmline[11-1])
+    tms[HA.home].RA = tms[HA.away].RS = int(gmline[10-1])
+    tms[HA.home].W = tms[HA.home].L = tms[HA.away].W = tms[HA.away].L = 0
+    if tms[HA.home].RS > tms[HA.away].RS: tms[HA.home].W = tms[HA.away].L = 1
+    if tms[HA.home].RS < tms[HA.away].RS: tms[HA.home].L = tms[HA.away].W = 1
 
-    for homeOrAway in (HOME, AWAY):
+    for homeOrAway in HA:
         tm = tms[homeOrAway]
         tm.stats = parse_team_stats(gmline, homeOrAway)
         tm.stats['game'] = {G: tm.G, W: tm.W, L: tm.L, RS: tm.RS, RA: tm.RA}
