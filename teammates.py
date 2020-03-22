@@ -16,7 +16,7 @@ def yield_teammate_combos(gm, numTeammates):
 
 teammate_numgames = {}
 teammate_firstgame = {}
-for gm in gl.gamelogs(2000, 2019):
+for gm in gl.gamelogs(2000, 2019, "./glfiles/"):
     for teammates in yield_teammate_combos(gm, NUM_COMMON_STARTERS):
         if teammates not in teammate_numgames:
             teammate_numgames[teammates] = 0

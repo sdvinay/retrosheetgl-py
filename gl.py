@@ -2,6 +2,8 @@ import csv
 import glutils
 from enum import Enum, auto
 
+GLFILE_DIR = './glfiles/'
+
 # TODO not sure why I have these constants but not others
 G = 'games'
 W = 'wins'
@@ -177,14 +179,14 @@ def parse_game_line(gmline):
     return gm
 
 
-def get_gl_filename(year):
-    return 'glfiles/GL{}.TXT'.format(year)
+def get_gl_filename(dir, year):
+    return '{DIR}/GL{YR}.TXT'.format(DIR=dir, YR=year)
 
 
-def gamelogs(firstyear, lastyear=None):
+def gamelogs(firstyear, lastyear=None, glfile_dir=GLFILE_DIR):
     years = range(firstyear, lastyear+1) if lastyear else [firstyear]
     for year in years:
-        with open(get_gl_filename(year)) as glfile:
+        with open(get_gl_filename(glfile_dir, year)) as glfile:
             for gmline in csv.reader(glfile):
                 gm = parse_game_line(gmline)
                 gm.year = year
