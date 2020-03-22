@@ -66,7 +66,7 @@ def parse_linescore_str(linestr):
 
 
 def parse_linescore(gmline, homeOrAway):
-    fieldNum = 21-1 if homeOrAway == HA.home else 20-1
+    fieldNum = {HA.home: 21, HA.away: 20}[homeOrAway] - 1
     return parse_linescore_str(gmline[fieldNum])
 
 
