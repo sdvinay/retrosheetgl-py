@@ -77,7 +77,7 @@ def parse_players_of_record(gmline):
             ('winning_pitcher', 94),
             ('losing_pitcher', 96),
             ('save_pitcher', 98),
-            # ('gwrbi', 94),
+            ('gwrbi', 100),
             )
     record = {}
     for (fieldname, fieldnum) in converters:
