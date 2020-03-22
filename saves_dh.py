@@ -1,4 +1,4 @@
-import gl
+import retrosheetgl as gl
 import glutils
 
 # Find instances of pitchers saving both games in a doubleheader

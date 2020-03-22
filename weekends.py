@@ -1,4 +1,4 @@
-import gl
+import retrosheetgl as gl
 import glutils
 
 G = 'games'
