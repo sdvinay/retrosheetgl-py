@@ -80,11 +80,11 @@ def parse_players_of_record(gmline):
             # ('gwrbi', 94),
             )
     record = {}
-    for converter in converters:
-        field = converter[1]
-        if (gmline[field-1]):
-            record[converter[0]] = gmline[field-1]
-            glutils.addplayername(gmline[field-1], gmline[field])
+    for (fieldname, fieldnum) in converters:
+        val = gmline[fieldnum-1]
+        if val:
+            record[fieldname] = val
+            glutils.addplayername(val, gmline[fieldnum])
     return record
 
 
