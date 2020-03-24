@@ -35,8 +35,7 @@ def parse_stats(gmline, field_list, starting_field):
 # parse the starting lineups
 # this function has the fieldIDs embedded, and loops across home and away
 def parse_lineup(gmline, homeOrAway):
-    starting_fields = {HA.home: 133, HA.away: 106}
-    starting_field = starting_fields.get(homeOrAway)
+    starting_field = {HA.home: 133, HA.away: 106}[homeOrAway]
     lineup = []
     for i in range(9):
         player = {}
