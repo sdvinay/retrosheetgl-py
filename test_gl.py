@@ -34,3 +34,13 @@ def test_game_teams():
         assert tms[gl.HA.home].opp.Name == 'SEA'
         assert tms[~gl.HA.home].Name == 'SEA'
         assert tms[~gl.HA.away].Name == 'OAK'
+        assert tms[gl.HA.home].RS == 7
+        assert tms[gl.HA.home].RA == 9
+        assert tms[gl.HA.away].RS == 9
+        assert tms[gl.HA.away].RA == 7
+        assert tms[~gl.HA.home].RS == 9
+        assert tms[gl.HA.home].W == 0
+        assert tms[gl.HA.away].W == 1
+        assert tms[gl.HA.home].L == 1
+        assert tms[gl.HA.away].L == 0
+        assert tms[~gl.HA.home].L == 0
