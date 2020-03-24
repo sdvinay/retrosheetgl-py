@@ -36,14 +36,15 @@ def parse_stats(gmline, field_list, starting_field):
 # this function has the fieldIDs embedded, and loops across home and away
 def parse_lineup(gmline, homeOrAway):
     starting_field = {HA.home: 133, HA.away: 106}[homeOrAway]
-    lineup = []
-    for i in range(9):
+
+    def createPlayer(i):
         player = {}
         player['ID'] = gmline[starting_field+i*3-1]
         player['position'] = gmline[starting_field+i*3+1]
-        lineup.append(player)
         player_name = gmline[starting_field+i*3]
         glutils.addplayername(player['ID'], player_name)
+        return player
+    lineup = [createPlayer(i) for i in range(9)]
     return lineup
 
 
