@@ -1,6 +1,7 @@
 import csv
 
 import retrosheetgl as gl
+import glutils
 
 
 def test_linescore():
@@ -44,5 +45,7 @@ def test_game_teams():
         assert tms[gl.HA.home].L == 1
         assert tms[gl.HA.away].L == 0
         assert tms[~gl.HA.home].L == 0
-        assert tms[~gl.HA.home].starter == 'Marco Gonzales'
-        assert tms[gl.HA.home].starter == 'Michael Fiers'
+        assert tms[~gl.HA.home].starter == 'gonzm005'
+        assert tms[gl.HA.home].starter == 'fierm001'
+        assert glutils.getplayername(tms[~gl.HA.home].starter) == 'Marco Gonzales'
+        assert glutils.getplayername(tms[gl.HA.home].starter) == 'Michael Fiers'
