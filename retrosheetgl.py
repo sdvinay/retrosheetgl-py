@@ -159,23 +159,23 @@ def parse_game_line(gmline):
 
     gm.details = parse_game_details(gmline)
 
-    tms[HA.home].Name = gmline[7-1]
-    tms[HA.away].Name = gmline[4-1]
-    tms[HA.home].RS = tms[HA.away].RA = int(gmline[11-1])
-    tms[HA.home].RA = tms[HA.away].RS = int(gmline[10-1])
-    tms[HA.home].W = tms[HA.home].L = tms[HA.away].W = tms[HA.away].L = 0
-    if tms[HA.home].RS > tms[HA.away].RS: tms[HA.home].W = tms[HA.away].L = 1
-    if tms[HA.home].RS < tms[HA.away].RS: tms[HA.home].L = tms[HA.away].W = 1
-
     for homeOrAway in HA:
         tm = tms[homeOrAway]
+        tm.Name = gmline[{HA.home: 7, HA.away: 4}[homeOrAway]-1]
+        tm.RS = tm.opp.RA = int(gmline[{HA.home: 11, HA.away: 10}[homeOrAway]-1])
         tm.stats = parse_team_stats(gmline, homeOrAway)
-        tm.stats['game'] = {G: tm.G, W: tm.W, L: tm.L, RS: tm.RS, RA: tm.RA}
         tm.lineup = parse_lineup(gmline, homeOrAway)
         tm.linescore = parse_linescore(gmline, homeOrAway)
         SP_fieldnum = {HA.home: 104, HA.away: 102}[homeOrAway]
         tm.starter = gmline[SP_fieldnum-1]
         glutils.addplayername(tm.starter, gmline[SP_fieldnum])
+
+    tms[HA.home].W = tms[HA.home].L = tms[HA.away].W = tms[HA.away].L = 0
+    if tms[HA.home].RS > tms[HA.away].RS: tms[HA.home].W = tms[HA.away].L = 1
+    if tms[HA.home].RS < tms[HA.away].RS: tms[HA.home].L = tms[HA.away].W = 1
+
+    for tm in tms.values():
+        tm.stats['game'] = {G: tm.G, W: tm.W, L: tm.L, RS: tm.RS, RA: tm.RA}
 
     gm.record = parse_players_of_record(gmline)
 
