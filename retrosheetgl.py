@@ -1,6 +1,6 @@
 import csv
 import glutils
-from enum import Enum, auto
+from enum import Flag, auto
 
 GLFILE_DIR = './glfiles/'
 
@@ -12,9 +12,9 @@ RS = 'runs_scored'
 RA = 'runs_allowed'
 
 
-class HA(Enum):
+class HA(Flag):
     home = auto()
-    away = auto()
+    away = 0
 
 
 # now we get to the functions actually used for gamelogs
