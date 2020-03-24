@@ -173,6 +173,7 @@ def parse_game_line(gmline):
         tm.stats['game'] = {G: tm.G, W: tm.W, L: tm.L, RS: tm.RS, RA: tm.RA}
         tm.lineup = parse_lineup(gmline, homeOrAway)
         tm.linescore = parse_linescore(gmline, homeOrAway)
+        tm.starter = gmline[{HA.home: 104, HA.away: 102}[homeOrAway]-1]
 
     gm.record = parse_players_of_record(gmline)
 

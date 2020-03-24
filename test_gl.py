@@ -44,3 +44,5 @@ def test_game_teams():
         assert tms[gl.HA.home].L == 1
         assert tms[gl.HA.away].L == 0
         assert tms[~gl.HA.home].L == 0
+        assert tms[~gl.HA.home].starter == 'Marco Gonzales'
+        assert tms[gl.HA.home].starter == 'Michael Fiers'
