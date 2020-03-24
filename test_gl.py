@@ -45,7 +45,8 @@ def test_game_teams():
         assert tms[gl.HA.home].L == 1
         assert tms[gl.HA.away].L == 0
         assert tms[~gl.HA.home].L == 0
-        assert tms[~gl.HA.home].starter == 'gonzm005'
-        assert tms[gl.HA.home].starter == 'fierm001'
-        assert glutils.getplayername(tms[~gl.HA.home].starter) == 'Marco Gonzales'
-        assert glutils.getplayername(tms[gl.HA.home].starter) == 'Michael Fiers'
+        (p1, p2) = (tms[~gl.HA.home].starter, tms[gl.HA.home].starter)
+        assert p1 == 'gonzm005'
+        assert p2 == 'fierm001'
+        assert glutils.getplayername(p1) == 'Marco Gonzales'
+        assert glutils.getplayername(p2) == 'Michael Fiers'
