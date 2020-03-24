@@ -32,8 +32,8 @@ def parse_stats(gmline, field_list, starting_field):
     return statmap
 
 
-# parse the starting lineups
-# this function has the fieldIDs embedded, and loops across home and away
+# parse a starting lineups
+# this function "knows" the format and fieldnums for each team's lineup
 def parse_lineup(gmline, homeOrAway):
     starting_field = {HA.home: 133, HA.away: 106}[homeOrAway]
 
