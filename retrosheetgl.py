@@ -155,13 +155,11 @@ def parse_game_line(gmline):
     tms[HA.home].opp = tms[HA.away]
     tms[HA.away].opp = tms[HA.home]
 
-    tms[HA.home].G = tms[HA.away].G = 1
-
     gm.details = parse_game_details(gmline)
 
-    for homeOrAway in HA:
-        tm = tms[homeOrAway]
+    for (homeOrAway, tm) in tms.items():
         tm.Name = gmline[{HA.home: 7, HA.away: 4}[homeOrAway]-1]
+        tm.G = 1
         tm.RS = tm.opp.RA = int(gmline[{HA.home: 11, HA.away: 10}[homeOrAway]-1])
         tm.stats = parse_team_stats(gmline, homeOrAway)
         tm.lineup = parse_lineup(gmline, homeOrAway)
