@@ -139,6 +139,8 @@ def parse_team_stats(gmline, homeOrAway):
 
 class Team:
     def __init__(self):
+        self.G = 1
+        self.W = self.L = 0
         pass
 
 
@@ -147,20 +149,18 @@ class Game:
         self.teams = {HA.home: Team(), HA.away: Team()}
         self.details = {}
         self.record = {}
+        for homeOrAway in HA:
+            self.teams[homeOrAway].opp = self.teams[~homeOrAway]
 
 
 def parse_game_line(gmline):
     gm = Game()
     tms = gm.teams
-    for homeOrAway in HA:
-        tms[homeOrAway].opp = tms[~homeOrAway]
 
     gm.details = parse_game_details(gmline)
 
     for (homeOrAway, tm) in tms.items():
         tm.Name = gmline[{HA.home: 7, HA.away: 4}[homeOrAway]-1]
-        tm.G = 1
-        tm.W = tm.L = 0
         tm.RS = tm.opp.RA = int(gmline[{HA.home: 11, HA.away: 10}[homeOrAway]-1])
         tm.stats = parse_team_stats(gmline, homeOrAway)
         tm.lineup = parse_lineup(gmline, homeOrAway)
