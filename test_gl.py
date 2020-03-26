@@ -30,29 +30,31 @@ def test_game_teams():
     myreader = csv.reader(gmraw.splitlines())
     for row in myreader:
         tms = gl.parse_game_line(row).teams
-        assert tms[gl.HA.home].Name == 'OAK'
-        assert tms[gl.HA.away].Name == 'SEA'
-        assert tms[gl.HA.home].opp.Name == 'SEA'
-        assert tms[gl.HA.away].opp.Name == 'OAK'
+        tmH = tms[gl.HA.home]
+        tmA = tms[gl.HA.away]
+        assert tmH.Name == 'OAK'
+        assert tmA.Name == 'SEA'
+        assert tmH.opp.Name == 'SEA'
+        assert tmA.opp.Name == 'OAK'
         assert tms[~gl.HA.home].Name == 'SEA'
         assert tms[~gl.HA.away].Name == 'OAK'
-        assert tms[gl.HA.home].RS == 7
-        assert tms[gl.HA.home].RA == 9
-        assert tms[gl.HA.away].RS == 9
-        assert tms[gl.HA.away].RA == 7
+        assert tmH.RS == 7
+        assert tmH.RA == 9
+        assert tmA.RS == 9
+        assert tmA.RA == 7
         assert tms[~gl.HA.home].RS == 9
-        assert tms[gl.HA.home].W == 0
-        assert tms[gl.HA.away].W == 1
-        assert tms[gl.HA.home].L == 1
-        assert tms[gl.HA.away].L == 0
+        assert tmH.W == 0
+        assert tmA.W == 1
+        assert tmH.L == 1
+        assert tmA.L == 0
         assert tms[~gl.HA.home].L == 0
-        (p1, p2) = (tms[~gl.HA.home].starter, tms[gl.HA.home].starter)
+        (p1, p2) = (tmA.starter, tmH.starter)
         assert p1 == 'gonzm005'
         assert p2 == 'fierm001'
         assert glutils.getplayername(p1) == 'Marco Gonzales'
         assert glutils.getplayername(p2) == 'Michael Fiers'
-        assert tms[gl.HA.away].linescore == [0, 0, 5, 1, 3, 0, 0, 0, 0]
-        assert tms[gl.HA.home].linescore == [1, 1, 2, 0, 0, 0, 3, 0, 0]
+        assert tmA.linescore == [0, 0, 5, 1, 3, 0, 0, 0, 0]
+        assert tmH.linescore == [1, 1, 2, 0, 0, 0, 3, 0, 0]
 
 
 def test_game_teams_starter_not_record():
