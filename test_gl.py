@@ -4,7 +4,7 @@ import retrosheetgl as gl
 import glutils
 
 
-def test_linescore():
+def test_parse_linescore():
     parser = gl.parse_linescore_str
     assert parser('0') == [0]
     assert parser('00') == [0, 0]
@@ -51,6 +51,8 @@ def test_game_teams():
         assert p2 == 'fierm001'
         assert glutils.getplayername(p1) == 'Marco Gonzales'
         assert glutils.getplayername(p2) == 'Michael Fiers'
+        assert tms[gl.HA.away].linescore == [0, 0, 5, 1, 3, 0, 0, 0, 0]
+        assert tms[gl.HA.home].linescore == [1, 1, 2, 0, 0, 0, 3, 0, 0]
 
 
 def test_game_teams_starter_not_record():
