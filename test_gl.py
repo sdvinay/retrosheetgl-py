@@ -33,6 +33,7 @@ def test_game_teams():
         assert tms[gl.HA.home].Name == 'OAK'
         assert tms[gl.HA.away].Name == 'SEA'
         assert tms[gl.HA.home].opp.Name == 'SEA'
+        assert tms[gl.HA.away].opp.Name == 'OAK'
         assert tms[~gl.HA.home].Name == 'SEA'
         assert tms[~gl.HA.away].Name == 'OAK'
         assert tms[gl.HA.home].RS == 7
@@ -50,6 +51,7 @@ def test_game_teams():
         assert p2 == 'fierm001'
         assert glutils.getplayername(p1) == 'Marco Gonzales'
         assert glutils.getplayername(p2) == 'Michael Fiers'
+
 
 def test_game_teams_starter_not_record():
     gmraw = '"20190321","0","Thu","SEA","AL",2,"OAK","AL",2,5,4,72,"N","","","","OAK01",46451,267,"021000100001","000020200000",43,9,4,0,2,5,0,1,2,5,0,9,1,0,1,0,10,7,3,3,2,0,36,12,1,0,1,0,46,10,1,0,0,3,0,0,0,6,0,10,0,0,1,0,12,8,5,5,0,1,36,8,0,0,1,0,"welkb901","Bill Welke","barkl901","Lance Barksdale","muchm901","Mike Muchlinski","nelsj901","Jeff Nelson","","(none)","","(none)","servs002","Scott Servais","melvb001","Bob Melvin","rossz001","Zac Rosscup","buchr001","Ryan Buchter","strih001","Hunter Strickland","santd002","Domingo Santana","kikuy001","Yusei Kikuchi","estrm001","Marco Estrada","gordd002","Dee Gordon",4,"hanim001","Mitch Haniger",8,"brucj001","Jay Bruce",3,"encae001","Edwin Encarnacion",10,"santd002","Domingo Santana",7,"narvo001","Omar Narvaez",2,"beckt001","Tim Beckham",6,"healr001","Ryon Healy",5,"suzui001","Ichiro Suzuki",9,"semim001","Marcus Semien",6,"chapm001","Matt Chapman",5,"piscs001","Stephen Piscotty",9,"davik003","Khris Davis",10,"pindc001","Chad Pinder",7,"olsom001","Matt Olson",3,"profj001","Jurickson Profar",4,"laurr001","Ramon Laureano",8,"phegj001","Josh Phegley",2,"","Y"'
