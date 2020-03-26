@@ -32,6 +32,30 @@ def parse_stats(gmline, field_list, starting_field):
     return statmap
 
 
+# We want to keep this format as close to the GL spec as we can
+# Field-nums are 1-indexed
+# (away, home, conversion_func)
+team_level_fields = {
+    'linescore': (20, 21, str),
+    'RS': (10, 11, int),
+    'SP': (102, 104, str),
+    'Name': (4, 7, str)
+    }
+
+
+# return the 0-based fieldnum for a home/away dependent field
+def get_field_num(key, homeOrAway):
+    converter = team_level_fields.get(key)
+    if converter:
+        return {HA.home: converter[1], HA.away: converter[0]}[homeOrAway]-1
+
+
+def get_field_val(gmline, key, homeOrAway):
+    fieldnum = get_field_num(key, homeOrAway)
+    conversion_func = team_level_fields.get(key)[2]
+    return conversion_func(gmline[fieldnum])
+
+
 # parse a starting lineups
 # this function "knows" the format and fieldnums for each team's lineup
 def parse_lineup(gmline, homeOrAway):
@@ -68,8 +92,8 @@ def parse_linescore_str(linestr):
 
 
 def parse_linescore(gmline, homeOrAway):
-    fieldNum = {HA.home: 21, HA.away: 20}[homeOrAway] - 1
-    return parse_linescore_str(gmline[fieldNum])
+    linescore_str = get_field_val(gmline, 'linescore', homeOrAway)
+    return parse_linescore_str(linescore_str)
 
 
 # parse the players/pitchers of records
@@ -103,10 +127,7 @@ def parse_game_details(gmline):
         (17, str, 'ParkID'),
         (18, int, 'Attendance')
     )
-    for converter in converters:
-        fieldnum = converter[0]
-        func = converter[1]
-        stat_name = converter[2]
+    for (fieldnum, func, stat_name) in converters:
         datum = gmline[fieldnum-1]  # 1-based index
         if datum:
             converted_data = func(datum)
@@ -160,14 +181,14 @@ def parse_game_line(gmline):
     gm.details = parse_game_details(gmline)
 
     for (homeOrAway, tm) in tms.items():
-        tm.Name = gmline[{HA.home: 7, HA.away: 4}[homeOrAway]-1]
-        tm.RS = tm.opp.RA = int(gmline[{HA.home: 11, HA.away: 10}[homeOrAway]-1])
+        tm.Name = get_field_val(gmline, 'Name', homeOrAway)
+        tm.RS = tm.opp.RA = get_field_val(gmline, 'RS', homeOrAway)
         tm.stats = parse_team_stats(gmline, homeOrAway)
         tm.lineup = parse_lineup(gmline, homeOrAway)
         tm.linescore = parse_linescore(gmline, homeOrAway)
-        SP_fieldnum = {HA.home: 104, HA.away: 102}[homeOrAway]
-        tm.starter = gmline[SP_fieldnum-1]
-        glutils.addplayername(tm.starter, gmline[SP_fieldnum])
+        SP_fieldnum = get_field_num('SP', homeOrAway)
+        tm.starter = gmline[SP_fieldnum]
+        glutils.addplayername(tm.starter, gmline[SP_fieldnum+1])
 
     for tm in tms.values():
         if tm.RS > tm.RA:
