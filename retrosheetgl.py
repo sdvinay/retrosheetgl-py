@@ -152,8 +152,8 @@ class Game:
 def parse_game_line(gmline):
     gm = Game()
     tms = gm.teams
-    tms[HA.home].opp = tms[HA.away]
-    tms[HA.away].opp = tms[HA.home]
+    for homeOrAway in HA:
+        tms[homeOrAway].opp = tms[~homeOrAway]
 
     gm.details = parse_game_details(gmline)
 
