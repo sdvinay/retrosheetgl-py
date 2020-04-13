@@ -23,6 +23,11 @@ def test_game_details():
     for row in myreader:
         gm = gl.parse_game_line(row)
         assert gm.details['DateStr'] == '20190320'
+        assert gm.details['GameNum'] == 0
+        assert gm.details['DayOfWeek'] == 'Wed'
+        assert gm.details['Outs'] == 54
+        assert gm.details['ParkID'] == 'OAK01'
+        assert gm.details['Attendance'] == 45787
 
 
 def test_game_teams():
