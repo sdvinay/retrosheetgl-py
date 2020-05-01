@@ -10,19 +10,25 @@ def teammate_combos(tm, numTeammates):
     return itertools.combinations(sorted(lineup), numTeammates)
 
 
-if __name__ == "__main__":
-    NUM_COMMON_STARTERS = 2
-
+def summarize_teammate_combos(glsource, num_common):
     teammate_numgames = {}
     teammate_firstgame = {}
-    for gm in gl.gamelogs(2000, 2019, "./glfiles/"):
+    for gm in glsource:
         for tm in gm.teams.values():
-            if tm.Name == 'SDN':
-                for teammates in teammate_combos(tm, NUM_COMMON_STARTERS):
+            if tm.Name == 'SDN':  # TODO move this into a filter, not hardcoded
+                for teammates in teammate_combos(tm, num_common):
                     if teammates not in teammate_numgames:
                         teammate_numgames[teammates] = 0
                         teammate_firstgame[teammates] = gm.details['DateStr']
                     teammate_numgames[teammates] += 1
+    return (teammate_numgames, teammate_firstgame)
+
+
+if __name__ == "__main__":
+    glsource = gl.gamelogs(2000, 2019, "./glfiles/")
+    NUM_COMMON_STARTERS = 2
+
+    (teammate_numgames, teammate_firstgame) = summarize_teammate_combos(glsource, NUM_COMMON_STARTERS)
 
     sorted_d = sorted((v, k) for (k, v) in teammate_firstgame.items())
     for (dt, teammates) in sorted_d:
