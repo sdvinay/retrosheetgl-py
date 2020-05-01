@@ -1,5 +1,4 @@
 import csv
-import math
 
 import retrosheetgl as gl
 import teammates
@@ -15,12 +14,16 @@ def test_teammates():
         combos = teammates.teammate_combos(tmH, NUM_COMMON_STARTERS)
         count = 0
         for mates in combos:
-            assert mates[0] < mates[1]
+            if NUM_COMMON_STARTERS > 1:
+                assert mates[0] < mates[1]
             assert len(mates) == NUM_COMMON_STARTERS
             count += 1
             print(mates)
         print(count)
-        assert count == math.comb(9, NUM_COMMON_STARTERS)
+    if NUM_COMMON_STARTERS == 1: assert count ==   9 # noqa E701
+    if NUM_COMMON_STARTERS == 2: assert count ==  36 # noqa E701
+    if NUM_COMMON_STARTERS == 3: assert count ==  84 # noqa E701
+    if NUM_COMMON_STARTERS == 4: assert count == 126 # noqa E701
 
 
 if __name__ == "__main__":
