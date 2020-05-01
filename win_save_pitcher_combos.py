@@ -5,16 +5,16 @@ import glutils
 
 
 # map of playerId pairs to array of dates on when they achieved those
-winsave_pair_games = {}
+winsave_pairs = {}
 
 for gm in gl.gamelogs(2017, 2019):
-    recs = gm.record
-    if recs.get('save_pitcher'):
-        winsave_pair = (recs['save_pitcher'], recs['winning_pitcher'])
-        pair_dates = glutils.getentity(winsave_pair, winsave_pair_games, [])
-        pair_dates.append(gm.details['DateStr'])
+    rec = gm.record
+    if 'save_pitcher' in rec:
+        pair = (rec['save_pitcher'], rec['winning_pitcher'])
+        pair_games = glutils.getentity(pair, winsave_pairs, [])
+        pair_games.append(gm)
 
-for winsave_pair in winsave_pair_games:
-    if len(winsave_pair_games[winsave_pair]) > 10:
-        player_names = map(glutils.getplayername, winsave_pair[0:2])
-        print(len(winsave_pair_games[winsave_pair]), tuple(player_names))
+for pair, games in winsave_pairs.items():
+    if len(games) > 10:
+        player_names = tuple(map(glutils.getplayername, pair))
+        print(len(games), player_names)
