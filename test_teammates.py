@@ -35,7 +35,8 @@ def impl_test_teammate_combos(glsource):
 def test_summarize_teammate_combos():
     glsource = yield_test_gamelogs()
     num_common_starters = 2
-    (numgames, firstgames) = teammates.summarize_teammate_combos(glsource, num_common_starters)
+    def team_filter(tm): return (tm.Name == 'OAK')
+    (numgames, firstgames) = teammates.summarize_teammate_combos(glsource, num_common_starters, team_filter)
     for combo, num in numgames.items():
         if num_common_starters > 1:
             assert combo[0] < combo[1]
