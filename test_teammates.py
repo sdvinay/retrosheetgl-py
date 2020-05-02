@@ -36,11 +36,13 @@ def test_summarize_teammate_combos():
     glsource = yield_test_gamelogs()
     num_common_starters = 2
     def team_filter(tm): return (tm.Name == 'OAK')
-    (numgames, firstgames) = teammates.summarize_teammate_combos(glsource, num_common_starters, team_filter)
-    for combo, num in numgames.items():
+    teammate_games = teammates.summarize_teammate_combos(glsource, num_common_starters, team_filter)
+    assert len(teammate_games) == expected_counts[num_common_starters]
+    for mates, games in teammate_games.items():
         if num_common_starters > 1:
-            assert combo[0] < combo[1]
-        print(combo, num)
+            assert mates[0] < mates[1]
+        assert len(games) == 1
+        assert games[0] == "20190320"
 
 
 def test_teammate_combos():

@@ -11,16 +11,13 @@ def teammate_combos(tm, numTeammates):
 
 
 def summarize_teammate_combos(glsource, num_common, team_filter):
-    teammate_numgames = {}
-    teammate_firstgame = {}
+    teammate_games = {}
     for gm in glsource:
         for tm in filter(team_filter, gm.teams.values()):
             for teammates in teammate_combos(tm, num_common):
-                if teammates not in teammate_numgames:
-                    teammate_numgames[teammates] = 0
-                    teammate_firstgame[teammates] = gm.details['DateStr']
-                teammate_numgames[teammates] += 1
-    return (teammate_numgames, teammate_firstgame)
+                games = glutils.getentity(teammates, teammate_games, [])
+                games.append(gm.details['DateStr'])
+    return teammate_games
 
 
 if __name__ == "__main__":
@@ -28,10 +25,9 @@ if __name__ == "__main__":
     NUM_COMMON_STARTERS = 2
 
     def team_filter(tm): return (tm.Name == 'SDN')
-    (teammate_numgames, teammate_firstgame) = summarize_teammate_combos(glsource, NUM_COMMON_STARTERS, team_filter)
+    teammate_games = summarize_teammate_combos(glsource, NUM_COMMON_STARTERS, team_filter)
 
-    sorted_d = sorted((v, k) for (k, v) in teammate_firstgame.items())
-    for (dt, teammates) in sorted_d:
-        if teammate_numgames[teammates] > 200:
+    for (teammates, games) in teammate_games.items():
+        if len(games) > 200:
             playernames = tuple(map(glutils.getplayername, teammates))
-            print(teammate_numgames[teammates], dt, playernames)
+            print(len(games), games[0], playernames)
